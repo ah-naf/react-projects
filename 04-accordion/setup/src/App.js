@@ -1,8 +1,49 @@
-import React, { useState } from 'react';
-import data from './data';
-import SingleQuestion from './Question';
-function App() {
-  return <h2>accordion project setup</h2>;
+import React, { useState } from "react";
+import data from "./data";
+import SingleQuestion from "./Question";
+
+// Functional Component
+
+// function App() {
+//   const [questions, setQuestions] = useState(data);
+//   return <main>
+//     <div className="container">
+//       <h3>qustions and answer about login</h3>
+//       <section className="info">
+//         {
+//           questions.map((question) => {
+//             return <SingleQuestion key={question.id} {...question} />
+//           })
+//         }
+//       </section>
+//     </div>
+//   </main>;
+// }
+
+// Class Component
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      questions: data,
+    };
+  }
+
+  render() {
+    return (
+      <main>
+        <div className="container">
+          <h3>qustions and answer about login</h3>
+          <section className="info">
+            {this.state.questions.map((question) => {
+              return <SingleQuestion key={question.id} question={question} />;
+            })}
+          </section>
+        </div>
+      </main>
+    );
+  }
 }
 
 export default App;

@@ -1,4 +1,4 @@
-#### Using both Class Components and Functional Component for better practice.
+#### Using both Class Component and Functional Component for better practice.
 
 ### Tutorial Video
 

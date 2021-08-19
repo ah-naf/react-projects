@@ -1,10 +1,149 @@
-import React, { useState, useEffect } from 'react'
-import { FaAngleDoubleRight } from 'react-icons/fa'
+import React, { useState, useEffect } from "react";
+import { FaAngleDoubleRight } from "react-icons/fa";
 // ATTENTION!!!!!!!!!!
 // I SWITCHED TO PERMANENT DOMAIN
-const url = 'https://course-api.com/react-tabs-project'
-function App() {
-  return <h2>tabs project setup</h2>
+const url = "https://course-api.com/react-tabs-project";
+
+// Functional Component
+
+// function App() {
+//   const [loading, setLoading] = useState(true);
+//   const [jobs, setJobs] = useState([]);
+//   const [value, setValue] = useState(0);
+
+//   const fetchJobs = async () => {
+//     const response = await fetch(url);
+//     const newJobs = await response.json();
+//     setJobs(newJobs);
+//     setLoading(false);
+//   };
+
+//   useEffect(() => {
+//     fetchJobs();
+//   }, []);
+
+//   if (loading) {
+//     return (
+//       <section className="section loading">
+//         <h1>Loading...</h1>
+//       </section>
+//     );
+//   }
+//   const { company, dates, duties, title } = jobs[value];
+//   return (
+//     <section className="section">
+//       <div className="title">
+//         <h2>experience</h2>
+//         <div className="underline"></div>
+//       </div>
+//       <div className="jobs-center">
+//         <div className="btn-container">
+//           {jobs.map((item, index) => {
+//             return (
+//               <button
+//                 key={item.id}
+//                 onClick={() => setValue(index)}
+//                 className={`job-btn ${index === value && "active-btn"}`}
+//               >
+//                 {item.company}
+//               </button>
+//             );
+//           })}
+//         </div>
+//         <article className="job-info">
+//           <h3>{title}</h3>
+//           <h4>{company}</h4>
+//           <p className="job-date">{dates}</p>
+//           {duties.map((duty, index) => {
+//             return (
+//               <div key={index} className="job-desc">
+//                 <FaAngleDoubleRight />
+//                 <p>{duty}</p>
+//               </div>
+//             );
+//           })}
+//         </article>
+//       </div>
+//     </section>
+//   );
+// }
+
+
+// Class Component
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: true,
+      value: 0,
+      jobs: [],
+    };
+  }
+
+  async fetchJobs() {
+    const response = await fetch(url);
+    const data = await response.json();
+    this.setState({
+      loading: false,
+      jobs: data,
+    })
+  }
+
+  changeIndex(index) {
+    this.setState({value:index});
+  }
+
+  componentDidMount() {
+    this.fetchJobs();
+  }
+
+  render() {
+    if(this.state.loading) {
+      return (
+        <section className="section loading">
+          <h1>Loading...</h1>
+        </section>
+      );
+    }
+    const { company, dates, duties, title } = this.state.jobs[this.state.value]
+    return (
+      <section className="section">
+        <div className="title">
+          <h2>experience</h2>
+          <div className="underline"></div>
+        </div>
+        <div className="jobs-center">
+          <div className="btn-container">
+            {this.state.jobs.map((item, index) => {
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => this.changeIndex(index)}
+                  className={`job-btn ${index === this.state.value && "active-btn"}`}
+                >
+                  {item.company}
+                </button>
+              );
+            })}
+          </div>
+          <article className="job-info">
+            <h3>{title}</h3>
+            <h4>{company}</h4>
+            <p className="job-date">{dates}</p>
+            {duties.map((duty, index) => {
+              return (
+                <div key={index} className="job-desc">
+                  <FaAngleDoubleRight />
+                  <p>{duty}</p>
+                </div>
+              );
+            })}
+          </article>
+        </div>
+      </section>      
+    );
+  }
 }
 
-export default App
+export default App;
